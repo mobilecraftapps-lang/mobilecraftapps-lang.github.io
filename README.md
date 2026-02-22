@@ -53,6 +53,8 @@ We use the collected information for the following purposes:
 - Providing access to shopping list creation
 - Enabling wastage tracking and reporting
 - Allowing data export functionality
+- **Processing subscription payments through Google Play Billing**
+- **Note:** All payment transactions are handled securely by Google Play. We do not store or have access to your payment card information.
 
 ### 2.3 Referral System
 - Managing your referral code
@@ -119,6 +121,12 @@ Fresh Keeper uses the following third-party services that may collect, process, 
 - **Purpose:** Account authentication
 - **Data Collected:** Email, name, and profile picture from your Google account
 - **Privacy Policy:** [https://policies.google.com/privacy](https://policies.google.com/privacy)
+
+### 4.5 Google Play Billing
+
+* **Purpose:** Processing in-app purchases and subscription payments
+* **Data Collected:** Payment information is collected and processed directly by Google Play. We do not have access to your payment card details.
+* **Privacy Policy:** https://payments.google.com/payments/apis-secure/get_legal_document?ldo=0&ldt=privacynotice
 
 These third-party services have their own privacy policies and terms of service. We encourage you to review them. We are not responsible for the privacy practices of these third parties.
 
