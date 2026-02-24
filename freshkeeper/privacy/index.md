@@ -256,4 +256,4 @@ By creating an account and using Fresh Keeper, you acknowledge that you have rea
 
 ---
 
-**Thank you for trusting Fresh Keeper with your food management needs!**
+**Thank you for trusting Fresh Keeper with your food management needs!!**
