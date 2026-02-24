@@ -1,10 +1,506 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mobile Crafts Apps</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0f14;
+      --surface: #13161e;
+      --card: #181c27;
+      --border: #232840;
+      --accent: #5ce1a0;
+      --accent2: #4f8fff;
+      --text: #e8eaf0;
+      --muted: #7a7f9a;
+      --radius: 18px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(79,143,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79,143,255,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Glow orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb1 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(92,225,160,0.12), transparent 70%);
+      top: -100px; left: -100px;
+      animation: floatOrb 12s ease-in-out infinite alternate;
+    }
+    .orb2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(79,143,255,0.1), transparent 70%);
+      bottom: -80px; right: -80px;
+      animation: floatOrb 15s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes floatOrb {
+      from { transform: translate(0, 0); }
+      to { transform: translate(40px, 30px); }
+    }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(13,15,20,0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo-dot {
+      width: 10px; height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--accent);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+    }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* Hero */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(92,225,160,0.1);
+      border: 1px solid rgba(92,225,160,0.25);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero p {
+      max-width: 520px;
+      font-size: 1.1rem;
+      line-height: 1.75;
+      color: var(--muted);
+      margin-bottom: 48px;
+      font-weight: 300;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .hero-cta {
+      display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent);
+      color: #0d0f14;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 14px 28px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 30px rgba(92,225,160,0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 45px rgba(92,225,160,0.45);
+    }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent;
+      color: var(--text);
+      font-weight: 500;
+      font-size: 0.9rem;
+      padding: 14px 28px;
+      border-radius: 100px;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent2);
+      background: rgba(79,143,255,0.06);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: var(--muted); font-size: 0.75rem; letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: fadeUp 0.6s 0.8s ease both;
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.2); }
+    }
+
+    /* Section */
+    section {
+      position: relative; z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 24px;
+    }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 500px;
+      line-height: 1.7;
+      margin-bottom: 56px;
+    }
+
+    /* Apps grid */
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .app-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      text-decoration: none;
+      color: var(--text);
+      display: flex; flex-direction: column; gap: 20px;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .app-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(92,225,160,0.04), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .app-card:hover {
+      border-color: rgba(92,225,160,0.35);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .app-card:hover::before { opacity: 1; }
+
+    .app-icon {
+      width: 64px; height: 64px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #1e4d38, #0d2e21);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      border: 1px solid rgba(92,225,160,0.2);
+      flex-shrink: 0;
+    }
+    .app-meta { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+    .app-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+    }
+    .app-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .app-tags {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-top: 4px;
+    }
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 4px 12px;
+      border-radius: 100px;
+      background: rgba(79,143,255,0.1);
+      border: 1px solid rgba(79,143,255,0.2);
+      color: var(--accent2);
+    }
+    .tag.green {
+      background: rgba(92,225,160,0.1);
+      border-color: rgba(92,225,160,0.2);
+      color: var(--accent);
+    }
+    .app-arrow {
+      align-self: flex-end;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+      font-size: 1rem;
+    }
+    .app-card:hover .app-arrow {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #0d0f14;
+    }
+
+    /* Stats */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 80px;
+    }
+    .stat-item {
+      background: var(--card);
+      padding: 36px 28px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .stat-number {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.8rem;
+      line-height: 1;
+      color: var(--accent);
+    }
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+
+    /* Footer */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--muted);
+    }
+    .footer-links {
+      display: flex; gap: 28px;
+    }
+    .footer-links a {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--muted);
+      opacity: 0.6;
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      footer { padding: 32px 20px; flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Mobile Crafts Apps</h1>
-  <p>We build simple and useful mobile applications.</p>
+
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+
+  <!-- Nav -->
+  <nav>
+    <a href="/" class="nav-logo">
+      <span class="nav-logo-dot"></span>
+      Mobile Crafts
+    </a>
+    <div class="nav-links">
+      <a href="#apps">Apps</a>
+      <a href="mailto:hello@mobilecraftapps.com">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-badge">✦ Independent App Studio</div>
+    <h1>Crafting apps<br/>people <em>love</em></h1>
+    <p>We build simple, thoughtful mobile applications that solve everyday problems — beautifully.</p>
+    <div class="hero-cta">
+      <a href="#apps" class="btn-primary">View Our Apps →</a>
+      <a href="mailto:hello@mobilecraftapps.com" class="btn-secondary">Get in Touch</a>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <section>
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-number">1+</div>
+        <div class="stat-label">Apps Published</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">Android</div>
+        <div class="stat-label">Platform</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">Free</div>
+        <div class="stat-label">To Download</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">2025</div>
+        <div class="stat-label">Founded</div>
+      </div>
+    </div>
+
+    <!-- Apps -->
+    <div id="apps">
+      <div class="section-label">Our Applications</div>
+      <h2 class="section-title">Built with care,<br/>designed to last.</h2>
+      <p class="section-sub">Every app we build starts with a real problem and ends with a polished, simple experience.</p>
+
+      <div class="apps-grid">
+
+        <!-- Fresh Keeper -->
+        <a href="/freshkeeper/" class="app-card">
+          <div style="display:flex;align-items:center;gap:16px;">
+            <div class="app-icon">🥬</div>
+            <div class="app-meta">
+              <div class="app-name">Fresh Keeper</div>
+              <div class="app-desc">Expiry date tracker — never waste food again.</div>
+            </div>
+          </div>
+          <div class="app-tags">
+            <span class="tag green">Android</span>
+            <span class="tag">Free</span>
+            <span class="tag">Google Play</span>
+          </div>
+          <div class="app-arrow">→</div>
+        </a>
+
+        <!-- Placeholder for future apps -->
+        <div class="app-card" style="opacity:0.4;cursor:default;border-style:dashed;">
+          <div style="display:flex;align-items:center;gap:16px;">
+            <div class="app-icon" style="background:rgba(255,255,255,0.03);">✦</div>
+            <div class="app-meta">
+              <div class="app-name">Coming Soon</div>
+              <div class="app-desc">Another thoughtful app is on the way.</div>
+            </div>
+          </div>
+          <div class="app-tags">
+            <span class="tag">In Development</span>
+          </div>
+          <div class="app-arrow">→</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-logo">Mobile Crafts Apps</div>
+    <div class="footer-links">
+      <a href="/freshkeeper/privacy">Privacy Policy</a>
+      <a href="/freshkeeper/terms">Terms of Use</a>
+    </div>
+    <div class="footer-copy">© 2025 Mobile Crafts Apps. All rights reserved.</div>
+  </footer>
+
 </body>
 </html>
